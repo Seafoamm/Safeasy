@@ -1,0 +1,324 @@
+package com.TCSS360;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+                                /*
+                                ToDo: Keep adding core functionalities.
+                                      Style the UI if time permits? (Synth L&F)
+                                 */
+
+public class ControlPanel extends JFrame {
+
+    private static final long serialVersionUID = 360;
+    private enum systemState { OFF, DISARMED, STANDBY, ARMED, TRIGGERED, DURESS }
+    private systemState currentState;
+    private JPanel mainPanel;
+    private JLabel textDisplay, numDisplay;
+    private JButton onOff, armDisarm, key0, key1, key2, key3,
+            key4, key5, key6, key7, key8, key9, keyEnter, keyDel;
+
+    public ControlPanel() {
+        super("Safeasy Control Panel - OFF");
+        currentState = systemState.OFF;
+        start();
+    }
+
+    public void start() {
+        setSize(800, 400);
+        setResizable(false);
+        setVisible(true);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        mainPanel = new JPanel();
+        mainPanel.setBackground(Color.WHITE);
+        mainPanel.setLayout(null);
+
+        textDisplay = new JLabel("System is off", SwingConstants.CENTER);
+        textDisplay.setBounds(0, 0, 800, 50);
+
+        onOff = new JButton("On");
+        onOff.setBounds(0, this.getHeight() - 89, 100, 50);
+        onOff.addActionListener(new onOffListener());
+
+        armDisarm = new JButton("Arm System");
+        armDisarm.setBounds(100, this.getHeight() - 89, 200, 50);
+        armDisarm.addActionListener(new armDisarmListener());
+        armDisarm.setEnabled(false);
+
+        makeKeypad();
+
+        mainPanel.add(textDisplay);
+        mainPanel.add(onOff);
+        mainPanel.add(armDisarm);
+
+        add(mainPanel);
+
+        updateUI();
+    }
+
+    private void makeKeypad() { // Just trying to abstract and make cleaner code
+        numDisplay = new JLabel("", SwingConstants.CENTER);
+        numDisplay.setBounds(this.getWidth() - 16 - 150, this.getHeight() - 39 - 250, 100, 50);
+
+        keyEnter = new JButton("Enter");
+        keyEnter.setBounds(this.getWidth() - 16 - 75, this.getHeight() - 39 - 50, 75, 50);
+        keyEnter.addActionListener(new keypadListener(10));
+
+        keyDel = new JButton("<-");
+        keyDel.setBounds(this.getWidth() - 16 - 50, this.getHeight() - 39 - 250, 50, 50);
+        keyDel.addActionListener(new keypadListener(-1));
+
+        key0 = new JButton("0");
+        key0.setBounds(this.getWidth() - 16 - 150, this.getHeight() - 39 - 50, 75, 50);
+        key0.addActionListener(new keypadListener(0));
+
+        key1 = new JButton("1");
+        key1.setBounds(this.getWidth() - 16 - 150, this.getHeight() - 39 - 100, 50, 50);
+        key1.addActionListener(new keypadListener(1));
+
+        key2 = new JButton("2");
+        key2.setBounds(this.getWidth() - 16 - 100, this.getHeight() - 39 - 100, 50, 50);
+        key2.addActionListener(new keypadListener(2));
+
+        key3 = new JButton("3");
+        key3.setBounds(this.getWidth() - 16 - 50, this.getHeight() - 39 - 100, 50, 50);
+        key3.addActionListener(new keypadListener(3));
+
+        key4 = new JButton("4");
+        key4.setBounds(this.getWidth() - 16 - 150, this.getHeight() - 39 - 150, 50, 50);
+        key4.addActionListener(new keypadListener(4));
+
+        key5 = new JButton("5");
+        key5.setBounds(this.getWidth() - 16 - 100, this.getHeight() - 39 - 150, 50, 50);
+        key5.addActionListener(new keypadListener(5));
+
+        key6 = new JButton("6");
+        key6.setBounds(this.getWidth() - 16 - 50, this.getHeight() - 39 - 150, 50, 50);
+        key6.addActionListener(new keypadListener(6));
+
+        key7 = new JButton("7");
+        key7.setBounds(this.getWidth() - 16 - 150, this.getHeight() - 39 - 200, 50, 50);
+        key7.addActionListener(new keypadListener(7));
+
+        key8 = new JButton("8");
+        key8.setBounds(this.getWidth() - 16 - 100, this.getHeight() - 39 - 200, 50, 50);
+        key8.addActionListener(new keypadListener(8));
+
+        key9 = new JButton("9");
+        key9.setBounds(this.getWidth() - 16 - 50, this.getHeight() - 39 - 200, 50, 50);
+        key9.addActionListener(new keypadListener(9));
+
+        mainPanel.add(numDisplay);
+        mainPanel.add(keyEnter);
+        mainPanel.add(keyDel);
+        mainPanel.add(key0);
+        mainPanel.add(key1);
+        mainPanel.add(key2);
+        mainPanel.add(key3);
+        mainPanel.add(key4);
+        mainPanel.add(key5);
+        mainPanel.add(key6);
+        mainPanel.add(key7);
+        mainPanel.add(key8);
+        mainPanel.add(key9);
+    }
+
+    private void enableKeypad(boolean b) {
+        if (b) {
+            keyEnter.setEnabled(true);
+            keyDel.setEnabled(true);
+            key0.setEnabled(true);
+            key1.setEnabled(true);
+            key2.setEnabled(true);
+            key3.setEnabled(true);
+            key4.setEnabled(true);
+            key5.setEnabled(true);
+            key6.setEnabled(true);
+            key7.setEnabled(true);
+            key8.setEnabled(true);
+            key9.setEnabled(true);
+        } else {
+            keyEnter.setEnabled(false);
+            keyDel.setEnabled(false);
+            key0.setEnabled(false);
+            key1.setEnabled(false);
+            key2.setEnabled(false);
+            key3.setEnabled(false);
+            key4.setEnabled(false);
+            key5.setEnabled(false);
+            key6.setEnabled(false);
+            key7.setEnabled(false);
+            key8.setEnabled(false);
+            key9.setEnabled(false);
+        }
+    }
+
+    private void setFrameTitle(String s) {
+        this.setTitle(s);
+    }
+
+    private void updateUI() { // Manage buttons based on state of system
+        switch (currentState) {
+            case OFF:
+                textDisplay.setText("System is OFF");
+                onOff.setEnabled(true);
+                armDisarm.setEnabled(false);
+                enableKeypad(false);
+                break;
+
+            case DISARMED:
+                textDisplay.setText("System is DISARMED");
+                onOff.setEnabled(true);
+                armDisarm.setEnabled(true);
+                enableKeypad(true);
+                break;
+
+            case STANDBY:
+                textDisplay.setText("System is in STANDBY    ---    You have ___ before system disarms itself");
+                onOff.setEnabled(true);
+                armDisarm.setEnabled(true);
+                enableKeypad(true);
+                break;
+
+            case ARMED:
+                textDisplay.setText("System is ARMED");
+                onOff.setEnabled(false);
+                armDisarm.setEnabled(true);
+                enableKeypad(false);
+                break;
+
+            case TRIGGERED:
+                textDisplay.setText("----- ALERT -----");
+                onOff.setEnabled(false);
+                armDisarm.setEnabled(true);
+                enableKeypad(true);
+                break;
+
+            case DURESS:
+                textDisplay.setText("System is DISARMED"); // Can't let intruder know it's in duress mode
+                onOff.setEnabled(false);
+                armDisarm.setEnabled(true);
+                enableKeypad(true);
+                break;
+        }
+    }
+
+    private class onOffListener implements ActionListener {
+        public void actionPerformed(ActionEvent ae) {
+            switch (currentState) {
+                case OFF -> {
+                    currentState = systemState.DISARMED;
+                    setFrameTitle("Safeasy Control Panel - DISARMED");
+                    updateUI();
+                }
+                case DISARMED, STANDBY -> {
+                    currentState = systemState.OFF;
+                    setFrameTitle("Safeasy Control Panel - OFF");
+                    updateUI();
+                }
+                default ->
+                        // Change from print to text display
+                        System.out.println("System must be disarmed or in standby to turn off.");
+            }
+        }
+    }
+
+    private class armDisarmListener implements ActionListener {
+        public void actionPerformed(ActionEvent ae) {
+            switch (currentState) {
+                case DISARMED:
+                    // Require passcode
+                    currentState = systemState.STANDBY;
+                    setFrameTitle("Safeasy Control Panel - STANDBY");
+                    updateUI();
+                    break;
+
+                case STANDBY:
+                    currentState = systemState.ARMED;
+                    setFrameTitle("Safeasy Control Panel - ARMED");
+                    updateUI();
+                    break;
+
+                default: // If system is armed, triggered, or in duress
+                    // Require passcode?
+                    currentState = systemState.DISARMED;
+                    setFrameTitle("Safeasy Control Panel - DISARMED");
+                    updateUI();
+                    break;
+            }
+        }
+    }
+
+    private class keypadListener implements ActionListener {
+        private final int num;
+
+        public keypadListener(int buttonNum) {
+            num = buttonNum;
+        }
+
+        public void actionPerformed(ActionEvent ae) {
+            String s = numDisplay.getText();
+
+            if(s.length() >= 8 && num != -1 && num != 10) {
+                return;
+            }
+
+            switch (num) {
+                case 10: // Enter
+                    // numDisplay.getText() and verify it matches the passcode
+                    break;
+
+                case -1: // Del
+                    if(s.length() == 0) {
+                        return;
+                    }
+                    numDisplay.setText(s.substring(0, s.length() - 1));
+                    break;
+
+                case 0:
+                    numDisplay.setText(s + "0");
+                    break;
+
+                case 1:
+                    numDisplay.setText(s + "1");
+                    break;
+
+                case 2:
+                    numDisplay.setText(s + "2");
+                    break;
+
+                case 3:
+                    numDisplay.setText(s + "3");
+                    break;
+
+                case 4:
+                    numDisplay.setText(s + "4");
+                    break;
+
+                case 5:
+                    numDisplay.setText(s + "5");
+                    break;
+
+                case 6:
+                    numDisplay.setText(s + "6");
+                    break;
+
+                case 7:
+                    numDisplay.setText(s + "7");
+                    break;
+
+                case 8:
+                    numDisplay.setText(s + "8");
+                    break;
+
+                case 9:
+                    numDisplay.setText(s + "9");
+                    break;
+            }
+        }
+    }
+}
