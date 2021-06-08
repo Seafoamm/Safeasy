@@ -1,4 +1,4 @@
-package com.TCSS360;
+package com.TCSS360.Sensor_System;
 
 public class SensorInterface {
     public enum SensorBatteryStatus {

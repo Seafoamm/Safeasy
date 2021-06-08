@@ -4,7 +4,7 @@
  */
 package com.TCSS360.Signalling_System;
 
-import com.TCSS360.Sensor;
+import com.TCSS360.Sensor_System.Sensor;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;

@@ -4,7 +4,7 @@
  */
 package com.TCSS360.Signalling_System;
 
-import com.TCSS360.Sensor;
+import com.TCSS360.Sensor_System.Sensor;
 
 import java.time.LocalDateTime;
 
@@ -19,12 +19,10 @@ public class Event {
      */
     private Sensor mySensor;
 
-
     /**
      * myDateTime is used to store when the event occurred
      */
     private LocalDateTime myDateTime;
-
 
     /**
      * myData is used to store any extra data such as video footage and authorities called
