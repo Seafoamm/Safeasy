@@ -1,56 +1,30 @@
-public class Sensor {
-    public enum SensorTypes {
-        Motion(1),
-        Temperature(2),
-        Water(3),
-        Smoke(4);
+package com.TCSS360;
 
-        private int number;
+public class Sensor extends SensorInterface {
 
-        private SensorTypes(int number) {
-            this.number = number;
-        }
-
-        public int getSensorType() {
-            return number;
-        }
-    }
-    private long id;
-    private String code;
-    private SensorTypes sensorTypes;
-    private boolean enable;
-
-    public Sensor(final String code, final SensorTypes sensorTypes, final boolean enable) {
-        this.code = code;
-        this.enable = enable;
-        this.sensorTypes = sensorTypes;
+    public Sensor(SensorBatteryStatus sensorBatteryStatus, SensorStatus sensorStatus,
+                  SensorTypes sensorTypes, boolean enable) {
+        super(sensorBatteryStatus, sensorStatus, sensorTypes, enable);
     }
 
-    public long getId() {
-        return id;
-    }
-    public void setId(final long id) {
-        this.id = id;
+    public SensorBatteryStatus batteryTrigger() {
+        return super.getSensorBatteryStatus();
     }
 
-    public String getCode() {
-        return code;
-    }
-    public void setCode(final String code) {
-        this.code = code;
+    public SensorStatus sensorStatusTrigger() {
+        return super.getSensorStatus();
     }
 
-    public SensorTypes getSensorTypes() {
-        return sensorTypes;
-    }
-    public void setSensorTypes(final SensorTypes sensorTypes) {
-        this.sensorTypes = sensorTypes;
+    public SensorTypes sensorTypesTrigger() {
+        return super.getSensorTypes();
     }
 
-    public boolean isEnable() {
-        return enable;
-    }
-    public void setEnable(final boolean enable) {
-        this.enable = enable;
-    }
+
+
+
+
+
+
+
+
 }
