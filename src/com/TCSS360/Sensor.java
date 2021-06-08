@@ -2,9 +2,8 @@ package com.TCSS360;
 
 public class Sensor extends SensorInterface {
 
-    public Sensor(SensorBatteryStatus sensorBatteryStatus, SensorStatus sensorStatus,
-                  SensorTypes sensorTypes, boolean enable) {
-        super(sensorBatteryStatus, sensorStatus, sensorTypes, enable);
+    public Sensor(SensorTypes sensorTypes, boolean enable) {
+        super(sensorTypes, enable);
     }
 
     public SensorBatteryStatus batteryTrigger() {

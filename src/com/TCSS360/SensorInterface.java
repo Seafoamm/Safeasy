@@ -55,12 +55,9 @@ public class SensorInterface {
     private SensorStatus sensorStatus;
     private boolean enable;
 
-    public SensorInterface(SensorBatteryStatus sensorBatteryStatus, SensorStatus sensorStatus,
-                           final SensorTypes sensorTypes, final boolean enable) {
+    public SensorInterface(final SensorTypes sensorTypes, final boolean enable) {
         this.enable = enable;
         this.sensorTypes = sensorTypes;
-        this.sensorBatteryStatus = sensorBatteryStatus;
-        this.sensorStatus = sensorStatus;
     }
 
     public long getId() {
