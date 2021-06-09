@@ -4,7 +4,7 @@
  */
 package com.TCSS360.Signalling_System;
 
-import com.TCSS360.Sensor_System.Sensor;
+import com.TCSS360.Sensor_System.SensorInterface;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
@@ -144,7 +144,7 @@ public class Database {
      * @param sensor the sensor that triggered the event
      * @return the events
      */
-    public static LinkedList<Event> getEvent(Sensor sensor)
+    public static LinkedList<Event> getEvent(SensorInterface sensor)
     {
         LinkedList<Event> events = new LinkedList<>();
         for(Event e : EVENTS)
