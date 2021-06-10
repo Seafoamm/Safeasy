@@ -1,4 +1,4 @@
-package com.TCSS360;
+package com.TCSS360.TriggerSimulator;
 
 public class TriggerSimulator{
     //boolean to check weather the sensor is on or not
