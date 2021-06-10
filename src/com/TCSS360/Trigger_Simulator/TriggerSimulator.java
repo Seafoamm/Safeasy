@@ -1,4 +1,7 @@
-package com.TCSS360.TriggerSimulator;
+package com.TCSS360.Trigger_Simulator;
+
+import com.TCSS360.Sensor_System.Sensor;
+import com.TCSS360.Sensor_System.SensorInterface;
 
 public class TriggerSimulator{
     //boolean to check weather the sensor is on or not
