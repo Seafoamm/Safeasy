@@ -1,14 +1,13 @@
 package com.TCSS360.Central_System;
 
+import com.TCSS360.Sensor_System.Sensor;
+import com.TCSS360.Sensor_System.SensorInterface;
+import com.TCSS360.Signalling_System.Event;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-                                /*
-                                ToDo: Keep adding core functionalities.
-                                      Style the UI if time permits? (Synth L&F)
-                                 */
 
 public class ControlPanel extends JFrame {
 
@@ -19,6 +18,9 @@ public class ControlPanel extends JFrame {
     private JLabel textDisplay, numDisplay;
     private JButton onOff, armDisarm, key0, key1, key2, key3,
             key4, key5, key6, key7, key8, key9, keyEnter, keyDel;
+    //private JOptionPane alertBox;
+    private String passcode = "360812"; // For demonstration purposes. This is obviously terrible.
+    private String duressCode = "360360";
 
     public ControlPanel() {
         super("Safeasy Control Panel - OFF");
@@ -165,45 +167,84 @@ public class ControlPanel extends JFrame {
         switch (currentState) {
             case OFF:
                 textDisplay.setText("System is OFF");
+                onOff.setText("On");
                 onOff.setEnabled(true);
+                armDisarm.setText("Arm System");
                 armDisarm.setEnabled(false);
                 enableKeypad(false);
                 break;
 
             case DISARMED:
-                textDisplay.setText("System is DISARMED");
+                textDisplay.setText("System is DISARMED. Enter passcode and press enter to set system to STANDBY");
+                onOff.setText("Off");
                 onOff.setEnabled(true);
-                armDisarm.setEnabled(true);
+                armDisarm.setText("Arm System");
+                armDisarm.setEnabled(false);
                 enableKeypad(true);
                 break;
 
             case STANDBY:
-                textDisplay.setText("System is in STANDBY    ---    You have ___ before system disarms itself");
+                //textDisplay.setText("System is in STANDBY    ---    You have ___ before system disarms itself");
+                textDisplay.setText("System is in STANDBY");
                 onOff.setEnabled(true);
+                armDisarm.setText("Arm System");
                 armDisarm.setEnabled(true);
                 enableKeypad(true);
+                keyEnter.setEnabled(false);
                 break;
 
             case ARMED:
-                textDisplay.setText("System is ARMED");
+                textDisplay.setText("System is ARMED. Enter passcode to DISARM");
                 onOff.setEnabled(false);
-                armDisarm.setEnabled(true);
-                enableKeypad(false);
+                armDisarm.setText("Disarm System");
+                armDisarm.setEnabled(false);
+                enableKeypad(true);
                 break;
 
             case TRIGGERED:
-                textDisplay.setText("----- ALERT -----");
+                textDisplay.setText("----- ALERT ----- Enter passcode to DISARM ----- ALERT -----");
                 onOff.setEnabled(false);
-                armDisarm.setEnabled(true);
+                armDisarm.setEnabled(false);
                 enableKeypad(true);
                 break;
 
             case DURESS:
-                textDisplay.setText("System is DISARMED"); // Can't let intruder know it's in duress mode
+                System.out.println("Duress State Activated.");
+                textDisplay.setText("System is DISARMED. Enter passcode and press enter to set system to STANDBY"); // Can't let intruder know it's in duress mode
                 onOff.setEnabled(false);
-                armDisarm.setEnabled(true);
+                armDisarm.setEnabled(false);
                 enableKeypad(true);
                 break;
+        }
+    }
+
+    public void eventTriggered(Event e){ // This is called when an event takes place.
+        if(currentState == systemState.ARMED || currentState == systemState.TRIGGERED) {
+            currentState = systemState.TRIGGERED;
+            createNotification(e);
+        }
+    }
+
+    private void createNotification(Event e) {
+        Sensor sen = e.getMySensor();
+        switch (sen.getSensorTypes().getSensorType()) {
+            case 1 -> {
+                JOptionPane.showMessageDialog(this, "Sensor " + sen.getId() + " activated at " + e.getMyDateTime()
+                        + ".\nMotion detected.");
+            }
+            case 2 -> {
+                JOptionPane.showMessageDialog(this, "Sensor " + sen.getId() + " activated at " + e.getMyDateTime()
+                        + ".\nUnacceptable temperature detected.");
+            }
+            case 3 -> {
+                JOptionPane.showMessageDialog(this, "Sensor " + sen.getId() + " activated at " + e.getMyDateTime()
+                        + ".\nWater detected.");
+            }
+            case 4 -> {
+                JOptionPane.showMessageDialog(this, "Sensor " + sen.getId() + " activated at " + e.getMyDateTime()
+                        + ".\nSmoke detected.");
+            }
+
         }
     }
 
@@ -221,7 +262,6 @@ public class ControlPanel extends JFrame {
                     updateUI();
                 }
                 default ->
-                        // Change from print to text display
                         System.out.println("System must be disarmed or in standby to turn off.");
             }
         }
@@ -231,7 +271,6 @@ public class ControlPanel extends JFrame {
         public void actionPerformed(ActionEvent ae) {
             switch (currentState) {
                 case DISARMED:
-                    // Require passcode
                     currentState = systemState.STANDBY;
                     setFrameTitle("Safeasy Control Panel - STANDBY");
                     updateUI();
@@ -244,7 +283,6 @@ public class ControlPanel extends JFrame {
                     break;
 
                 default: // If system is armed, triggered, or in duress
-                    // Require passcode?
                     currentState = systemState.DISARMED;
                     setFrameTitle("Safeasy Control Panel - DISARMED");
                     updateUI();
@@ -269,7 +307,33 @@ public class ControlPanel extends JFrame {
 
             switch (num) {
                 case 10: // Enter
-                    // numDisplay.getText() and verify it matches the passcode
+                    // Based on state and which PIN is entered
+                    if(currentState == systemState.DISARMED) {
+                        if (numDisplay.getText().equals(passcode)) { // Require passcode. If passcode is right,
+                            currentState = systemState.STANDBY;
+                            setFrameTitle("Safeasy Control Panel - STANDBY");
+                            updateUI();
+                            numDisplay.setText("");
+                            break;
+                        }
+                    } else if(currentState == systemState.ARMED || currentState == systemState.TRIGGERED || currentState == systemState.DURESS) {
+                        if (numDisplay.getText().equals(passcode)) { // Require passcode. If passcode is right,
+                            currentState = systemState.DISARMED;
+                            setFrameTitle("Safeasy Control Panel - DISARMED");
+                            updateUI();
+                            numDisplay.setText("");
+                            break;
+                        }
+                    }
+
+                    if(numDisplay.getText().equals(duressCode)) {
+                        currentState = systemState.DURESS;
+                        setFrameTitle("Safeasy Control Panel - DISARMED");
+                        updateUI();
+                    } else {
+                        textDisplay.setText("Incorrect passcode");
+                    }
+                    numDisplay.setText("");
                     break;
 
                 case -1: // Del
