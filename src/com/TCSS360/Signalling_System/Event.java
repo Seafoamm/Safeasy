@@ -4,6 +4,7 @@
  */
 package com.TCSS360.Signalling_System;
 
+import com.TCSS360.Sensor_System.Sensor;
 import com.TCSS360.Sensor_System.SensorInterface;
 
 import java.time.LocalDateTime;
@@ -17,7 +18,7 @@ public class Event {
     /**
      * mySensor will store which sensor was triggered along with its associated data
      */
-    private SensorInterface mySensor;
+    private Sensor mySensor;
 
     /**
      * myDateTime is used to store when the event occurred
@@ -75,7 +76,7 @@ public class Event {
      * returns the sensor that triggered this event
      * @return
      */
-    public SensorInterface getMySensor() {
+    public Sensor getMySensor() {
         return mySensor;
     }
 
