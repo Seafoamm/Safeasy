@@ -4,6 +4,7 @@
 package com.TCSS360.Signaling_System;
 
 import com.TCSS360.Sensor_System.Sensor;
+import com.TCSS360.Trigger_Simulator.ExampleSystem;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -24,11 +25,14 @@ public class SignalingInterface {
     }
 
     /**
-     * sends the signal to the Central System to arm the system -- asks for a passcode if not entered already
+     * sends the signal to the sensor system to arm the system
      */
     public static void armSystem()
     {
-
+        for(Sensor s : ExampleSystem.mySensors)
+        {
+            s.setEnable(true);
+        }
     }
 
     /**

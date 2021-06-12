@@ -2,6 +2,7 @@ package com.TCSS360.Central_System;
 
 import com.TCSS360.Sensor_System.Sensor;
 import com.TCSS360.Signaling_System.Event;
+import com.TCSS360.Signaling_System.SignalingInterface;
 
 import javax.swing.*;
 import java.awt.*;
@@ -279,6 +280,7 @@ public class ControlPanel extends JFrame {
                     currentState = systemState.ARMED;
                     setFrameTitle("Safeasy Control Panel - ARMED");
                     updateUI();
+                    SignalingInterface.armSystem();
                     break;
 
                 default: // If system is armed, triggered, or in duress
@@ -289,6 +291,8 @@ public class ControlPanel extends JFrame {
             }
         }
     }
+
+
 
     private class keypadListener implements ActionListener {
         private final int num;
