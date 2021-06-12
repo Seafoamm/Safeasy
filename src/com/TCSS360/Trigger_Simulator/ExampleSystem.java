@@ -11,8 +11,8 @@ public class ExampleSystem {
     {
         mySensors = new LinkedList<>();
         mySensors.add(new Sensor(1, Sensor.SensorStatus.NonDetect, Sensor.SensorTypes.Motion, false));
-        mySensors.add(new Sensor(1, Sensor.SensorStatus.NonDetect, Sensor.SensorTypes.Temperature, false));
-        mySensors.add(new Sensor(1, Sensor.SensorStatus.NonDetect, Sensor.SensorTypes.Water, false));
-        mySensors.add(new Sensor(1, Sensor.SensorStatus.NonDetect, Sensor.SensorTypes.Smoke, false));
+        mySensors.add(new Sensor(2, Sensor.SensorStatus.NonDetect, Sensor.SensorTypes.Temperature, false));
+        mySensors.add(new Sensor(3, Sensor.SensorStatus.NonDetect, Sensor.SensorTypes.Water, false));
+        mySensors.add(new Sensor(4, Sensor.SensorStatus.NonDetect, Sensor.SensorTypes.Smoke, false));
     }
 }
