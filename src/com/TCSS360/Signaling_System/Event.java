@@ -2,7 +2,7 @@
     Brandon Lu
     06/07/2021
  */
-package com.TCSS360.Signalling_System;
+package com.TCSS360.Signaling_System;
 
 import com.TCSS360.Sensor_System.Sensor;
 import com.TCSS360.Sensor_System.SensorInterface;
@@ -34,7 +34,7 @@ public class Event {
      * creates an event triggered by the sensor passed in
      * @param theSensor the sensor that triggered the event
      */
-    public Event(SensorInterface theSensor)
+    Event(SensorInterface theSensor)
     {
         mySensor = theSensor;
         myDateTime = LocalDateTime.now();
@@ -47,7 +47,7 @@ public class Event {
      * @param theSensor the sensor that triggered it
      * @param theData extra data
      */
-    public Event(SensorInterface theSensor, Object... theData)
+    Event(SensorInterface theSensor, Object... theData)
     {
         this(theSensor);
         myData = theData;
@@ -67,7 +67,7 @@ public class Event {
      * returns the extra data of this event
      * @return
      */
-    public Object[] getMyData() {
+    Object[] getMyData() {
         return myData;
     }
 
