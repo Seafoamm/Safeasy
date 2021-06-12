@@ -1,3 +1,6 @@
+/*
+    Brandon Lu
+ */
 package com.TCSS360.Signaling_System;
 
 import com.TCSS360.Sensor_System.Sensor;
