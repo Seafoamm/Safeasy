@@ -347,6 +347,7 @@ public class ControlPanel extends JFrame {
 
                     if(numDisplay.getText().equals(duressCode)) {
                         currentState = systemState.DURESS;
+                        SignalingInterface.callAuthorities(null);
                         setFrameTitle("Safeasy Control Panel - DISARMED");
                         updateUI();
                     } else {
