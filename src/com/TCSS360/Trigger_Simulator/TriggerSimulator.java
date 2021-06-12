@@ -4,6 +4,7 @@ import com.TCSS360.Central_System.ControlPanel;
 import com.TCSS360.Sensor_System.Sensor;
 import com.TCSS360.Sensor_System.SensorInterface;
 import com.TCSS360.Signaling_System.Event;
+import com.TCSS360.Signaling_System.SignalingInterface;
 
 import javax.naming.ldap.Control;
 
@@ -42,7 +43,9 @@ takes an existing sensor method and a on/off option
     }
     //updates in the main gui
     public void guiUpdate(Sensor sensor){
-        ControlPanel.eventTriggered(new Event(sensor, sensor.getMyData()));
+        Event e = new Event(sensor, sensor.getMyData());
+        ControlPanel.eventTriggered(e);
+        SignalingInterface.saveToDatabase(e);
     }
 }
 
