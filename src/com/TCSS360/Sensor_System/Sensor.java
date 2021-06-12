@@ -37,7 +37,8 @@ public class Sensor {
     private int id;
     private SensorTypes sensorTypes;
     private SensorStatus sensorStatus;
-    private boolean enable;
+    protected boolean enable;
+    private Object[] myData;
 
     public Sensor(final int id, final SensorStatus sensorStatus,
                   final SensorTypes sensorTypes, final boolean enable) {
@@ -45,6 +46,11 @@ public class Sensor {
         this.sensorTypes = sensorTypes;
         this.id = id;
         this.sensorStatus = sensorStatus;
+        myData = new Object[10];
+        myData[0] = id;
+        myData[1] = sensorStatus;
+        myData[2] = sensorTypes;
+        myData[3] = enable;
     }
 
     public long getId() {
@@ -71,6 +77,9 @@ public class Sensor {
     public SensorStatus getSensorStatus() { return sensorStatus; }
     public void setSensorStatus(final SensorStatus sensorStatus) { this.sensorStatus = sensorStatus; }
 
+    public Object[] getMyData() {
+        return myData;
+    }
 
     public String toString() {
         return "Sensor type is " + getSensorTypes().name() + ", id: " + getId() + ", " +
