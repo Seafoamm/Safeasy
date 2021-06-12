@@ -32,10 +32,10 @@ takes an existing sensor method and a on/off option
              sensor.setEnable(false);
         } else sensor.setEnable(true);
     }
-//updates in the main gui
+    //updates in the main gui
     public void guiUpdate(Sensor sensor){
 
     }
-    }
+}
 
 

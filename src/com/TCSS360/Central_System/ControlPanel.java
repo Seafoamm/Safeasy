@@ -1,8 +1,7 @@
 package com.TCSS360.Central_System;
 
 import com.TCSS360.Sensor_System.Sensor;
-import com.TCSS360.Sensor_System.SensorInterface;
-import com.TCSS360.Signalling_System.Event;
+import com.TCSS360.Signaling_System.Event;
 
 import javax.swing.*;
 import java.awt.*;

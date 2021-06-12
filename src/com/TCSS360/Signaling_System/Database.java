@@ -2,7 +2,7 @@
     Brandon Lu
     06/07/2021
  */
-package com.TCSS360.Signalling_System;
+package com.TCSS360.Signaling_System;
 
 import com.TCSS360.Sensor_System.SensorInterface;
 
@@ -20,13 +20,13 @@ public class Database {
     /**
      * EVENTS is a master database that stores all the events that have occurred
      */
-    public static final LinkedList<Event> EVENTS = new LinkedList<>();
+    static final LinkedList<Event> EVENTS = new LinkedList<>();
 
     /**
      * adds an event into the database
      * @param e the event to add
      */
-    public static void addEvent(Event e)
+    static void addEvent(Event e)
     {
         EVENTS.add(e);
     }
@@ -36,7 +36,7 @@ public class Database {
      * @param e the event to return
      * @return the event. null if doesn't exist
      */
-    public static Event getEvent(Event e)
+    static Event getEvent(Event e)
     {
         if(EVENTS.contains(e))
         {
@@ -53,7 +53,7 @@ public class Database {
      * @param i passing in a 1 will get the 1st event recorded, 2 will get the 2nd, etc.
      * @return the event
      */
-    public static Event getEvent(int i)
+    static Event getEvent(int i)
     {
         Event result;
         try
@@ -73,7 +73,7 @@ public class Database {
      * @param date the date time to match
      * @return the events that match
      */
-    public static LinkedList<Event> getEvent(LocalDateTime date)
+    static LinkedList<Event> getEvent(LocalDateTime date)
     {
 
         LinkedList<Event> events = new LinkedList<>();
@@ -95,7 +95,7 @@ public class Database {
      * @param day the day
      * @return the events that happened on the day
      */
-    public static LinkedList<Event> getEvent(int year, Month month, DayOfWeek day)
+    static LinkedList<Event> getEvent(int year, Month month, DayOfWeek day)
     {
 
         LinkedList<Event> events = new LinkedList<>();
@@ -121,7 +121,7 @@ public class Database {
      * @param date the month it happened
      * @return the list of events that happened in a month
      */
-    public static LinkedList<Event> getEvent(int year, Month date)
+    static LinkedList<Event> getEvent(int year, Month date)
     {
 
         LinkedList<Event> events = new LinkedList<>();
@@ -144,7 +144,7 @@ public class Database {
      * @param sensor the sensor that triggered the event
      * @return the events
      */
-    public static LinkedList<Event> getEvent(SensorInterface sensor)
+    static LinkedList<Event> getEvent(SensorInterface sensor)
     {
         LinkedList<Event> events = new LinkedList<>();
         for(Event e : EVENTS)
