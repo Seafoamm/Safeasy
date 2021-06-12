@@ -1,7 +1,11 @@
 package com.TCSS360.Trigger_Simulator;
 
+import com.TCSS360.Central_System.ControlPanel;
 import com.TCSS360.Sensor_System.Sensor;
 import com.TCSS360.Sensor_System.SensorInterface;
+import com.TCSS360.Signaling_System.Event;
+
+import javax.naming.ldap.Control;
 
 public class TriggerSimulator{
     //boolean to check weather the sensor is on or not
@@ -38,7 +42,7 @@ takes an existing sensor method and a on/off option
     }
     //updates in the main gui
     public void guiUpdate(Sensor sensor){
-
+        ControlPanel.eventTriggered(new Event(sensor, sensor.getMyData()));
     }
 }
 

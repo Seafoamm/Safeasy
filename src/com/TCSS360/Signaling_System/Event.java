@@ -34,7 +34,7 @@ public class Event {
      * creates an event triggered by the sensor passed in
      * @param theSensor the sensor that triggered the event
      */
-    Event(SensorInterface theSensor)
+    Event(Sensor theSensor)
     {
         mySensor = theSensor;
         myDateTime = LocalDateTime.now();
@@ -47,7 +47,7 @@ public class Event {
      * @param theSensor the sensor that triggered it
      * @param theData extra data
      */
-    Event(SensorInterface theSensor, Object... theData)
+    public Event(Sensor theSensor, Object... theData)
     {
         this(theSensor);
         myData = theData;

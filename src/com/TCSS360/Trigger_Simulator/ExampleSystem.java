@@ -1,7 +1,6 @@
 package com.TCSS360.Trigger_Simulator;
 
 import com.TCSS360.Sensor_System.Sensor;
-import com.TCSS360.Signaling_System.Database;
 
 import java.util.LinkedList;
 import java.util.List;

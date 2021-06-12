@@ -4,15 +4,13 @@ import com.TCSS360.Central_System.ControlPanel;
 import com.TCSS360.Sensor_System.Sensor;
 
 import java.awt.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Main {
 
+    public static ExampleSystem mySystem;
     public static void main(String[] args) {
-        ExampleSystem mySystem = new ExampleSystem();
-        for(Sensor s : mySystem.mySensors)
-        {
-            TriggerSimulator ts = new TriggerSimulator(s, true);
-        }
+        mySystem = new ExampleSystem();
 
         createControlPanel();
     }

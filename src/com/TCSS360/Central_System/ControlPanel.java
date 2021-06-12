@@ -3,6 +3,9 @@ package com.TCSS360.Central_System;
 import com.TCSS360.Sensor_System.Sensor;
 import com.TCSS360.Signaling_System.Event;
 import com.TCSS360.Signaling_System.SignalingInterface;
+import com.TCSS360.Trigger_Simulator.ExampleSystem;
+import com.TCSS360.Trigger_Simulator.Main;
+import com.TCSS360.Trigger_Simulator.TriggerSimulator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,11 +16,11 @@ public class ControlPanel extends JFrame {
 
     private static final long serialVersionUID = 360;
     private enum systemState { OFF, DISARMED, STANDBY, ARMED, TRIGGERED, DURESS }
-    private systemState currentState;
+    private static systemState currentState;
     private JPanel mainPanel;
     private JLabel textDisplay, numDisplay;
     private JButton onOff, armDisarm, key0, key1, key2, key3,
-            key4, key5, key6, key7, key8, key9, keyEnter, keyDel;
+            key4, key5, key6, key7, key8, key9, keyEnter, keyDel, keyTest;
     //private JOptionPane alertBox;
     private String passcode = "360812"; // For demonstration purposes. This is obviously terrible.
     private String duressCode = "360360";
@@ -114,6 +117,10 @@ public class ControlPanel extends JFrame {
         key9.setBounds(this.getWidth() - 16 - 50, this.getHeight() - 39 - 200, 50, 50);
         key9.addActionListener(new keypadListener(9));
 
+        keyTest = new JButton("Test");
+        keyTest.setBounds(this.getWidth() - 100 - 150, this.getHeight() - 39 - 50, 75, 50);
+        keyTest.addActionListener(new keypadListener(11));
+
         mainPanel.add(numDisplay);
         mainPanel.add(keyEnter);
         mainPanel.add(keyDel);
@@ -127,6 +134,7 @@ public class ControlPanel extends JFrame {
         mainPanel.add(key7);
         mainPanel.add(key8);
         mainPanel.add(key9);
+        mainPanel.add(keyTest);
     }
 
     private void enableKeypad(boolean b) {
@@ -218,30 +226,38 @@ public class ControlPanel extends JFrame {
         }
     }
 
-    public void eventTriggered(Event e){ // This is called when an event takes place.
+    public static void eventTriggered(Event e){ // This is called when an event takes place.
         if(currentState == systemState.ARMED || currentState == systemState.TRIGGERED) {
             currentState = systemState.TRIGGERED;
             createNotification(e);
         }
     }
 
-    private void createNotification(Event e) {
+    public static void testTriggers(ExampleSystem mySystem)
+    {
+        for(Sensor s : mySystem.mySensors)
+        {
+            TriggerSimulator ts = new TriggerSimulator(s, true);
+        }
+    }
+
+    private static void createNotification(Event e) {
         Sensor sen = e.getMySensor();
         switch (sen.getSensorTypes().getSensorType()) {
             case 1 -> {
-                JOptionPane.showMessageDialog(this, "Sensor " + sen.getId() + " activated at " + e.getMyDateTime()
+                JOptionPane.showMessageDialog(null, "Sensor " + sen.getId() + " activated at " + e.getMyDateTime()
                         + ".\nMotion detected.");
             }
             case 2 -> {
-                JOptionPane.showMessageDialog(this, "Sensor " + sen.getId() + " activated at " + e.getMyDateTime()
+                JOptionPane.showMessageDialog(null, "Sensor " + sen.getId() + " activated at " + e.getMyDateTime()
                         + ".\nUnacceptable temperature detected.");
             }
             case 3 -> {
-                JOptionPane.showMessageDialog(this, "Sensor " + sen.getId() + " activated at " + e.getMyDateTime()
+                JOptionPane.showMessageDialog(null, "Sensor " + sen.getId() + " activated at " + e.getMyDateTime()
                         + ".\nWater detected.");
             }
             case 4 -> {
-                JOptionPane.showMessageDialog(this, "Sensor " + sen.getId() + " activated at " + e.getMyDateTime()
+                JOptionPane.showMessageDialog(null, "Sensor " + sen.getId() + " activated at " + e.getMyDateTime()
                         + ".\nSmoke detected.");
             }
 
@@ -385,7 +401,11 @@ public class ControlPanel extends JFrame {
                 case 9:
                     numDisplay.setText(s + "9");
                     break;
+                case 11:
+                    testTriggers(Main.mySystem);
+                    break;
             }
         }
     }
+
 }
