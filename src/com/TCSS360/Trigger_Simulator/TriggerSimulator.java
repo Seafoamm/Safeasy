@@ -30,7 +30,10 @@ takes an existing sensor method and a on/off option
     public void buttonPress(Sensor sensor, boolean onOff) {
         if (onOff == false) {
              sensor.setEnable(false);
-        } else sensor.setEnable(true);
+             
+        } else {
+            sensor.setEnable(true);
+            sensor.triggred();
     }
     //updates in the main gui
     public void guiUpdate(Sensor sensor){
